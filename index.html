@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phishing URL Detector</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 400px;
+            margin: auto;
+            box-shadow: 0 0 10px gray;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Phishing URL Detector</h2>
+
+    <input type="text" id="urlInput"
+           placeholder="Enter website URL">
+
+    <br>
+    <button onclick="checkURL()">Check URL</button>
+
+    <p id="result"></p>
+</div>
+
+<script>
+function checkURL() {
+    let url = document.getElementById("urlInput").value;
+    let score = 0;
+
+    if (url.length > 75) score++;
+    if (!url.startsWith("https")) score++;
+    if (url.includes("@") || url.includes("-")) score++;
+
+    let words = ["login","verify","bank","free"];
+    words.forEach(word => {
+        if (url.toLowerCase().includes(word)) score++;
+    });
+
+    let result = document.getElementById("result");
+
+    if (score >= 2) {
+        result.innerHTML = "⚠ Suspicious / Phishing URL";
+        result.style.color = "red";
+    } else {
+        result.innerHTML = "✅ Safe URL";
+        result.style.color = "green";
+    }
+}
+</script>
+
+</body>
+</html>
+
